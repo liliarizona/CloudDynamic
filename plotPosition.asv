@@ -1,0 +1,25 @@
+function plotPosition(x,y,t)
+    alpha=0:pi/20:2*pi;%angle
+    R=0.2; % radius
+    cx=R*cos(alpha)+x; 
+    cy=R*sin(alpha)+y; 
+    plot(cx,cy,'-');
+    hold on;
+    if(t==1)
+        fill(cx,cy,'r');
+    else
+        fill(cx,cy,'b');
+    end
+    
+    %plot walls
+    [num_w bla]=size(wall);
+    for i=1:1:num_w
+        s1=wall(i,1);
+        s2=wall(i,3);
+        wide=wall(i,2)-wall(i,1);
+    end
+    wide=10;
+    hight=15;
+    rectangle('Position',[4,7,wide,hight],'Curvature',[0,0],...
+          'FaceColor','g')
+    

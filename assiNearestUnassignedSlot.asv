@@ -1,0 +1,22 @@
+function [nextPosition]=assiNearestUnassignedSlot(row,col,wall,currentPosition,nextPosition)
+    for j=0:1:(max(row,col)-1)
+        for jj=0:1:j
+            nexttemp=zeros(4,2);
+            nexttemp(1,:)=[currentPosition(1)+j currentPosition(2)+jj];
+            nexttemp(2,:)=[currentPosition(1)-j currentPosition(2)+jj];
+            nexttemp(3,:)=[currentPosition(1)+j currentPosition(2)-jj];
+            nexttemp(4,:)=[currentPosition(1)-j currentPosition(2)-jj];
+            for k=1:1:4
+                if(nexttemp(1)<row && nexttemp(1)>0 && nexttemp(2)<row && nexttemp(2)>0 && nextPosition(nexttemp(1),nexttemp(2))==0)
+                    nextPosition(nexttemp(1),nexttemp(2))=node;
+                    assiNodeMarker(node)=0;
+                    return ;
+                end
+            end
+        end
+    end
+
+    for j=0:1:(max(row,col)-1)
+        for i=currentPosition-
+    
+    end

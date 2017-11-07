@@ -1,0 +1,169 @@
+crowdPlay(row,col,intial,type,wall,exit)
+
+
+
+when do not cancel individual in the exit slot, it's kinda like exit closed in a fire.
+
+crowdPlay(maxMove,row,col,i2,t2,wall,exit)
+
+
+ wall=[4 9 10 15;13 21 10 15];
+ exit=[24 6;24 18];
+ 
+  maxMove=50;
+for i=1:1:row
+	initial(i,:)=[1 i];
+end
+for i=1:1:row
+	initial(i+row,:)=[2 i];
+end
+for i=1:1:row
+	initial(i+2*row,:)=[3 i];
+end
+
+ type=[ones(1,row) 2*ones(1,row) ones(1,row)];
+ 
+ #one third random, one third mass, one third familar
+ familiar=[ones(1,row) 2*ones(1,row) 3*ones(1,row)];
+ 
+ 
+  #two third2 mass, one third random
+ familiar=[2*ones(1,row) 2*ones(1,row) 3*ones(1,row)];
+ 
+   #one third mass, two thirds random
+ familiar=[2*ones(1,row) 3*ones(1,row) 3*ones(1,row)];
+ 
+ # one third random, two thirds familar
+ familiar=[ones(1,row) ones(1,row) 3*ones(1,row)];
+ 
+ #one third mass, two thirds familar
+ familiar=[ones(1,row) ones(1,row) 2*ones(1,row)];
+ 
+ familiar=[ones(1,row) 2*ones(1,row) 2*ones(1,row)];	26.5
+ 
+ familiar=[ones(1,row) ones(1,row) 2*ones(1,row)];	27.5
+ 
+ 
+ type=[ones(1,row) 2*ones(1,row) 2*ones(1,row)]; 28
+ 
+ familiar=[ones(1,row) ones(1,row) 2*ones(1,row)];34
+ crowdPlay(maxMove,row,col,initial,type,familiar,wall,exit); 
+ 
+ 
+ type=[ones(1,row) 2*ones(1,row) 2*ones(1,row)];
+ familiar=[ones(1,row) 3*ones(1,row) 3*ones(1,row)]; 29.5
+ 
+follow the mass bothered familiar ppl to exit
+ 
+  
+ 
+ 
+ 
+# rick's test
+row=24;col=24;
+wall=[3 23 7 15];
+exit=[4 1;20 1];
+
+wall=[12 20 3 23];
+exit=[24 6;24 18];
+
+numP=24;
+initial=zeros(numP,2);
+for i=1:1:24
+initial(i,:)=[3 i];
+end
+type=[ones(1,12) ones(1,12)];
+familiar=ones(1,numP);
+
+
+numP=48;
+initial=zeros(numP,2);
+for i=1:1:24
+initial(i,:)=[3 i];
+end
+for i=1:1:24
+initial(i+24,:)=[2 i];
+end
+type=[ones(1,12) ones(1,12) ones(1,12) ones(1,12)];
+familiar=ones(1,numP);
+
+numP=72;
+for i=1:1:row
+	initial(i,:)=[1 i];
+end
+for i=1:1:row
+	initial(i+row,:)=[2 i];
+end
+for i=1:1:row
+	initial(i+2*row,:)=[3 i];
+end
+wall=[4 9 10 15;13 21 10 15];
+exit=[24 6;24 18];
+type=[ones(1,24) 2*ones(1,24) ones(1,24)];
+familiar=ones(1,numP);
+
+#concert
+maxMove=20;
+row=24;
+col=24;
+
+wall=[1 18 6 24];
+#exit=[6 1;18 1;24 6;24 18];
+exit=[6 1;7 1;24 6;24 7];
+for i=1:1:20
+ini(i,:)=[i 4];
+end
+for i=1:1:19
+ini(i+20,:)=[20 24-i];
+end
+t=[ones(1,20) 2*ones(1,19)];
+f=ones(1,39);
+
+crowdPlay(maxMove,row,col,ini,t,f,wall,exit)
+
+#shopping mall
+wall=[6 7 8 16;11 12 8 16; 18 19 8 16];
+exit=[6 1;11 1;17 1;19 1];
+
+
+#group
+initialPosition[column 1 and 2] leader[c3] type[c4] familarity[c5] group_id[c6]
+group=[
+10 10 1 2 1 1
+10 11 0 1 0 1
+10 12 0 1 0 1
+10 13 0 1 0 1
+1 14 1 2 1 2
+1 15 0 1 0 2];
+
+group=[
+10 10 1 2 2 1
+10 11 0 1 0 1
+10 12 0 1 0 1
+10 13 0 1 0 1];
+
+crowdPlay(maxMove,row,col,initial,type,familiar,wall,exit,group); 
+
+
+showp=zeros(lenp,2);
+for i=1:1:(lenp)
+    tempcol=mod(path(i),row);
+    temprow=ceil(path(i)/row);
+    %temprow=round(i/row);
+    if(tempcol==0)
+        tempcol=col;
+    end
+    showp(i,:)=[temprow tempcol];
+end
+for j=1:1:lenp
+    plotPosition(showp(j,1)-0.5,showp(j,2)-0.5,1);
+    hold on;
+end
+plotWall(wall);
+plotExit(exit);
+axis([0,row,0,col])
+set(gca,'XTick',1:1:(row));
+set(gca,'YTick',1:1:(col));
+GRID ON;
+hold on;
+hold off;

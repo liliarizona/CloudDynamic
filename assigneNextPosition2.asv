@@ -1,0 +1,43 @@
+function nextPosition=assigneNextPosition2(row,col,prfList,prfPoint)
+[num_p,num_d]=size(prfList);
+nextPosition=zeros(row,col);
+assiMarker=zeros(row,col);
+assiNodeMarker=ones(1,num_p);
+
+prfBuff=zeros(row*col,num_p);
+
+prfRank=1;
+for r=1:1:num_d
+    %assiLevelMarker=zeros(row*col,num_p);
+    prfLevelBuff=zeros(row*col,num_p);
+    if(sum(assiNodeMarker)==0)
+        break;
+    else
+        for i=1:1:num_p
+            if(prfPoint(i,2*r) ~= 0)
+                if(prfPoint(i,2*r+1)==0)
+                    nextPosition(prfPoint(i,2*r-1),prfPoint(i,2*r))=i;
+                    assiNodeMarker(i)=0;
+                else 
+                    temp=find(prfLevelBuff((prfPoint(i,2*r-1)-1)*row+prfPoint(i,2*r),:)~=0);
+                    index=length(temp)+1;
+                    prfLevelBuff((prfPoint(i,2*r-1)-1)*row+prfPoint(i,2*r),index)=i;
+                end
+            end
+        end
+        for i=1:1:row*col
+            temp=find(prfLevelBuff(i,:)~=0);
+            if (temp==1)
+                tempcol=mod(i,row);
+                temprow=ceil(i/row);
+                if(tempcol==0)
+                    tempcol=col;
+                    temprow=temprow+1;
+                end
+                nextPosition(temprow,tempcol)=prfLevelBuff(i,1);
+                assiNodeMarker(prfLevelBuff(i,1))=0;
+            else
+            end
+        end
+    end
+end

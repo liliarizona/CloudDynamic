@@ -1,0 +1,6 @@
+[x y z k]=crowdPlay(maxMove,row,col,initial,type,familiar,wall,exit,group);
+ 
+x:	aveExitTimeAll=totalExitTimeAll/exitPplCountAll;
+y:	aveExitTime1Group=totalExitTime1Group/exitPplCount1Group;
+z:	aveExitTime12=totalExitTime12/exitPplCount12;
+k:	aveExitTime12Group=totalExitTime12Group/exitPplCount12Group;

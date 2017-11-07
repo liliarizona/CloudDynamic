@@ -1,0 +1,69 @@
+function [label tempco]=testPrfPoint(row,col,drct,s,currentPosition,wall,exit)
+% 4 directioins: 1=E 2=S 3=W 4=N, 2 speed level: 1=L 2=H
+tempco=zeros(1,2);
+if(drct==1)
+    tempco(1)=currentPosition(1)-s;
+    tempco(2)=currentPosition(2);
+elseif (drct==2)
+    tempco(1)=currentPosition(1);
+    tempco(2)=currentPosition(2)-s;
+elseif (drct==3) 
+    tempco(1)=currentPosition(1)+s;
+    tempco(2)=currentPosition(2);
+elseif (drct==4)
+    tempco(1)=currentPosition(1);
+    tempco(2)=currentPosition(2)+s;
+else
+    tempco=currentPosition;
+end
+
+[num_e bla]=size(exit);
+
+% check boundary
+if(tempco(1)>row || tempco(1)<1 || tempco(2)>col || tempco(2)<1)
+    label=0;
+    %check if it is jumpping out of exit
+    for j=1:1:num_e
+        tempdist=abs(tempco(1)-exit(j,1))+abs(tempco(2)-exit(j,2));
+        if(tempdist==1)
+         %if((tempco(1)>exit(j,1) & currentPosition(1)<exit(j,1) & tempco(2)==exit(j,2) & currentPosition(2)==exit(j,2))|(tempco(2)>exit(j,2) & currentPosition(2)<exit(j,2) & tempco(1)==exit(j,1) & currentPosition(1)==exit(j,1)))
+            label=1;
+            tempco(1)=exit(j,1);
+            tempco(2)=exit(j,2);
+            break;
+        end
+    end
+else
+    %check if jumpp
+    if((tempco(1)>exit(j,1) & currentPosition(1)<exit(j,1) & tempco(2)==exit(j,2) & currentPosition(2)==exit(j,2))|(tempco(2)>exit(j,2) & currentPosition(2)<exit(j,2) & tempco(1)==exit(j,1) & currentPosition(1)==exit(j,1)))
+            label=1;
+            tempco(1)=exit(j,1);
+            tempco(2)=exit(j,2);
+            break;
+        end
+    label=1;
+end
+
+
+
+%check walls
+if(label ~= 0)
+[numW numWW]=size(wall);
+flag=1;
+    for i=1:1:numW
+        if(flag==1)
+            minrow=wall(i,1);
+            maxrow=wall(i,2);
+            mincol=wall(i,3);
+            maxcol=wall(i,4);
+            %if(tempco(1)>=minrow && tempco(1)<=maxrow && tempco(2)>=mincol && tempco(2)<=maxrow)
+            if(tempco(1)>=minrow & tempco(1)<=maxrow & tempco(2)>=mincol & tempco(2)<=maxcol)
+                label=0;
+                flag=0;
+                %wall(i,:)
+                %tempco
+                %disp('I get here\n');
+            end
+        end
+    end
+end

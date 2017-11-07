@@ -1,0 +1,79 @@
+function [dist]=testShortestPath(row,col,wall,exit,myPosition)
+[num_e blah]=size(exit);
+dist=zeros(1,num_e);
+
+
+num_node=row*col;
+%distMatrix=row*col*10*ones(num_node,num_node);
+distMatrix=zeros(num_node,num_node);
+
+wallLabel=ones(1,num_node);
+positionArr=zeros(num_node,2);
+
+
+for i=1:1:num_node
+    tempcol=mod(i,row);
+    temprow=ceil(i/row);
+    %temprow=round(i/row);
+    if(tempcol==0)
+        tempcol=col;
+    end
+    positionArr(i,:)=[temprow tempcol];
+    wallLabel(i)=isWall(wall,positionArr(i,:));
+end
+
+for i=1:1:num_node
+    for j=1:1:num_node
+        if(wallLabel(i)==0 && wallLabel(j)==0)
+            %if i==j
+            %    distMatrix(i,j)=0;
+            %end
+            if (positionArr(i,1)==positionArr(j,1) && abs(positionArr(i,2)-positionArr(j,2))==1)
+                distMatrix(i,j)=abs(positionArr(i,2)-positionArr(j,2));
+            end
+            if (positionArr(i,2)==positionArr(j,2) && abs(positionArr(i,1)-positionArr(j,1))==1)
+                distMatrix(i,j)=abs(positionArr(i,1)-positionArr(j,1));
+            end
+        end
+    end
+end
+
+distMatrixSparse=sparse(distMatrix);
+
+my_node=row*(myPosition(1)-1)+myPosition(2);
+node_e=zeros(1,num_e);
+for i=1:1:num_e
+   node_e(i)=exit(i,1)*(row-1)+exit(i,2);
+end
+
+for i=1:1:num_e
+    [dist(i),path,pred]=graphshortestpath(distMatrixSparse,my_node,node_e(i));
+end
+lenp=length(path);
+%path
+for i=1:1:(lenp)
+    positionArr(path(i),:);
+end
+
+%showp=zeros(lenp,2);
+%for i=1:1:(lenp)
+%    tempcol=mod(path(i),row);
+%    temprow=ceil(path(i)/row);
+%    %temprow=round(i/row);
+%    if(tempcol==0)
+%        tempcol=col;
+%    end
+%    showp(i,:)=[temprow tempcol];
+%end
+%for j=1:1:lenp
+    plotPosition(showp(j,1)-0.5,showp(j,2)-0.5,1);
+    hold on;
+end
+plotWall(wall);
+plotExit(exit);
+axis([0,row,0,col])
+set(gca,'XTick',1:1:(row));
+set(gca,'YTick',1:1:(col));
+GRID ON;
+hold on;
+hold off;
